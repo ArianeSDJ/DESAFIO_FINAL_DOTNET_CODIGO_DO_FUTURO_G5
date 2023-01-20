@@ -45,17 +45,17 @@ public class LojasController : ControllerBase
         var loja = await _contexto.Lojas.FindAsync(id);
         if(loja is not null)
         {
-            loja.bairro = lojaAtualizda.bairro;
-            loja.cep = lojaAtualizda.cep;
-            loja.cidade = lojaAtualizda.cidade;
-            loja.complemento = lojaAtualizda.complemento;
-            loja.estado = lojaAtualizda.estado;
-            loja.latitude = lojaAtualizda.latitude;
-            loja.logradouro = lojaAtualizda.logradouro;
-            loja.longitude = lojaAtualizda.longitude;
-            loja.nome = lojaAtualizda.nome;
-            loja.numero = lojaAtualizda.numero;
-            loja.observacao = lojaAtualizda.observacao;
+            loja.Bairro = lojaAtualizda.Bairro;
+            loja.Cep = lojaAtualizda.Cep;
+            loja.Cidade = lojaAtualizda.Cidade;
+            loja.Complemento = lojaAtualizda.Complemento;
+            loja.Estado = lojaAtualizda.Estado;
+            loja.Latitude = lojaAtualizda.Latitude;
+            loja.Logradouro = lojaAtualizda.Logradouro;
+            loja.Longitude = lojaAtualizda.Longitude;
+            loja.Nome = lojaAtualizda.Nome;
+            loja.Numero = lojaAtualizda.Numero;
+            loja.Observacao = lojaAtualizda.Observacao;
             await _contexto.SaveChangesAsync();
         }
         return StatusCode(200, loja);
@@ -70,6 +70,6 @@ public class LojasController : ControllerBase
             _contexto.Lojas.Remove(loja);
         }
         await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"Loja {loja?.nome} apagada com sucesso"});
+        return StatusCode(200, new {Mensagem=$"Loja {loja?.Nome} apagada com sucesso"});
     }
 }
