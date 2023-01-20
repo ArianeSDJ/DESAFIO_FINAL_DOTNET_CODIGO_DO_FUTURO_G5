@@ -39,21 +39,10 @@ O sistema será desenvolvido em AspNet core API C# com as seguintes Endpoints  c
 
 ## Tecnologias e Ferramentas Utilizadas 🕹️
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" width="100px">
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" width="100px"> |  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original-wordmark.svg" width="140px"> | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" width="120px"> |
+|----------|----------|----------|
+|  <img src="https://user-images.githubusercontent.com/87840459/204097783-4f86afd9-bc52-4a25-8845-c454a4119dd0.png" width="120px">| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="110px">| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" width="130px">|
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original-wordmark.svg" width="140px">
-
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" width="120px">
-
-
-<img src="https://user-images.githubusercontent.com/87840459/204097783-4f86afd9-bc52-4a25-8845-c454a4119dd0.png" width="120px">
-
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="110px">
-
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" width="130px">
 
 
 ## Organização do Projeto 📈
