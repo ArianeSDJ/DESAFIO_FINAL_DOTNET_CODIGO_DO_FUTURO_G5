@@ -1,7 +1,9 @@
 
 
 using desafio_dotnet.Contexto;
+using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
+using desafio_dotnet.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,14 +35,15 @@ public class LojasController : ControllerBase
         return StatusCode(404, new { Mensagem = "Loja não encontrada"});
     }
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] Loja lojaNova)
+    public async Task<IActionResult> Novo([FromBody] LojaDto lojaNova)
     {
-        _contexto.Add(lojaNova);
+        var loja = DtoBuilder<Loja>.Builder(lojaNova);
+        _contexto.Add(loja);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, lojaNova);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Loja lojaAtualizda)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] LojaDto lojaAtualizda)
     {
         var loja = await _contexto.Lojas.FindAsync(id);
         if(loja is not null)
