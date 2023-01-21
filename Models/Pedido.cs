@@ -12,6 +12,5 @@ public record Pedido
     public DateTime? Data {get;set;} = DateTime.Now;
 
     // public int ClienteId {get;set;} 
-
     
 }
