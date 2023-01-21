@@ -48,17 +48,7 @@ public class LojasController : ControllerBase
         var loja = await _contexto.Lojas.FindAsync(id);
         if(loja is not null)
         {
-            loja.Bairro = lojaAtualizda.Bairro;
-            loja.Cep = lojaAtualizda.Cep;
-            loja.Cidade = lojaAtualizda.Cidade;
-            loja.Complemento = lojaAtualizda.Complemento;
-            loja.Estado = lojaAtualizda.Estado;
-            loja.Latitude = lojaAtualizda.Latitude;
-            loja.Logradouro = lojaAtualizda.Logradouro;
-            loja.Longitude = lojaAtualizda.Longitude;
-            loja.Nome = lojaAtualizda.Nome;
-            loja.Numero = lojaAtualizda.Numero;
-            loja.Observacao = lojaAtualizda.Observacao;
+            loja = DtoBuilder<Loja>.Builder(lojaAtualizda);
             await _contexto.SaveChangesAsync();
         }
         return StatusCode(200, loja);
