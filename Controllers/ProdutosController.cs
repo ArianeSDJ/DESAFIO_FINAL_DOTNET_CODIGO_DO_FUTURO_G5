@@ -41,7 +41,7 @@ public class ProdutosController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Loja produtoAtualizado)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Produto produtoAtualizado)
     {
         var produto = await _contexto.Produtos.FindAsync(id);
         if(produto is not null)
