@@ -2,6 +2,19 @@
   "format": 1,
   "restore": {
 <<<<<<< HEAD
+<<<<<<< HEAD
+    "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+        "projectName": "desafio-dotnet",
+        "projectPath": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+        "packagesPath": "C:\\Users\\Sérgio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\obj\\",
+=======
     "C:\\Projetos\\Desafio Final\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj": {}
   },
   "projects": {
@@ -13,6 +26,7 @@
         "projectPath": "C:\\Projetos\\Desafio Final\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
         "packagesPath": "C:\\Users\\igore\\.nuget\\packages\\",
         "outputPath": "C:\\Projetos\\Desafio Final\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\obj\\",
+>>>>>>> origin/desenvolvimento
 =======
     "D:\\workspace\\dotnet\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj": {}
   },
@@ -27,20 +41,19 @@
         "outputPath": "D:\\workspace\\dotnet\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\obj\\",
 >>>>>>> origin/desenvolvimento
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
+<<<<<<< HEAD
+          "C:\\Users\\Sérgio\\AppData\\Roaming\\NuGet\\NuGet.Config"
+=======
           "C:\\Users\\igore\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+>>>>>>> origin/desenvolvimento
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -101,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
