@@ -11,4 +11,7 @@ public class DbContexto : DbContext
     public DbSet<Campanha> Campanhas { get; set; } = default!;
     public DbSet<PosicaoProduto> PosicoesProdutos { get; set; } = default!;
 
+    public DbSet<Cliente> Clientes { get; set; } = default!;
+    public DbSet<Produto> Produtos { get; set; } = default!;
+
 } 
