@@ -15,7 +15,7 @@ public class PedidosController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Lista()
+    public async Task<IActionResult> Lista(int? clienteId)
     {
         List<Pedido> pedidos = await _contexto.Pedidos.ToListAsync();
         return StatusCode(200, pedidos);
