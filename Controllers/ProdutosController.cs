@@ -60,9 +60,10 @@ public class ProdutosController : ControllerBase
         if (produto is not null)
         {
             _contexto.Produtos.Remove(produto);
+                await _contexto.SaveChangesAsync();
+        return StatusCode(200, new {Mensagem=$"Produto {produto?.Nome} apagado com sucesso"});
         }
-        await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"Produto {produto?.Nome} apagada com sucesso"});
+        return StatusCode(404, new{Mensagem = "Produto não encontrado"});
     }
 
 
