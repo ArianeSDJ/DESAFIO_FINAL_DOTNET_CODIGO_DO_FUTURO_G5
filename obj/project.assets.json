@@ -1473,17 +1473,30 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\Sérgio\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\igore\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+>>>>>>> origin/desenvolvimento
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
 <<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
       "projectName": "desafio-dotnet",
       "projectPath": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
       "packagesPath": "C:\\Users\\Sérgio\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\obj\\",
+=======
+      "projectUniqueName": "C:\\Projetos\\Desafio Final\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+      "projectName": "desafio-dotnet",
+      "projectPath": "C:\\Projetos\\Desafio Final\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+      "packagesPath": "C:\\Users\\igore\\.nuget\\packages\\",
+      "outputPath": "C:\\Projetos\\Desafio Final\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\obj\\",
+>>>>>>> origin/desenvolvimento
 =======
       "projectUniqueName": "D:\\workspace\\dotnet\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
       "projectName": "desafio-dotnet",
@@ -1493,7 +1506,13 @@
 >>>>>>> origin/desenvolvimento
       "projectStyle": "PackageReference",
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\Sérgio\\AppData\\Roaming\\NuGet\\NuGet.Config"
+=======
+        "C:\\Users\\igore\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+>>>>>>> origin/desenvolvimento
       ],
       "originalTargetFrameworks": [
         "net7.0"

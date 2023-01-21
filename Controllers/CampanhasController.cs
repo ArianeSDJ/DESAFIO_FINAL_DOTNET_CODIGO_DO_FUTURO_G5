@@ -50,8 +50,10 @@ public class CampanhasController : ControllerBase
         {
             campanha = DtoBuilder<Campanha>.Builder(campanhaAtualizda);
             await _contexto.SaveChangesAsync();
+            return StatusCode(200, campanha);
         }
-        return StatusCode(200, campanha);
+        return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
+
     }
 
     [HttpDelete("{id}")]
@@ -61,8 +63,9 @@ public class CampanhasController : ControllerBase
         if (campanha is not null)
         {
             _contexto.Campanhas.Remove(campanha);
-        }
-        await _contexto.SaveChangesAsync();
+            await _contexto.SaveChangesAsync();
         return StatusCode(200, new {Mensagem=$"campanha {campanha?.Nome} apagada com sucesso"});
+        }
+        return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
     }
 }
