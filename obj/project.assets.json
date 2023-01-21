@@ -1478,11 +1478,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
       "projectName": "desafio-dotnet",
       "projectPath": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
       "packagesPath": "C:\\Users\\Sérgio\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Sérgio\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\obj\\",
+=======
+      "projectUniqueName": "D:\\workspace\\dotnet\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+      "projectName": "desafio-dotnet",
+      "projectPath": "D:\\workspace\\dotnet\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+      "packagesPath": "C:\\Users\\olive\\.nuget\\packages\\",
+      "outputPath": "D:\\workspace\\dotnet\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\obj\\",
+>>>>>>> origin/desenvolvimento
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Sérgio\\AppData\\Roaming\\NuGet\\NuGet.Config"
