@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "Jp6CEJmIEGQitQUGNxzQzCbOvwk0pP4JgMcMPKZQiBwO+EHLLhLUEPmPc/u0WnU6CF8A6JJoLlTrIWaeqz223w==",
   "success": true,
   "projectFilePath": "C:\\Projetos\\Desafio Final\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+=======
+  "dgSpecHash": "Z1GRP/G1zPP3LPhTySb8gf3GZNv1o1Ggs623Cr5qKtO+r9jzwLqrDL9jN1MhaF1m9YuGgT22ApudCq7BXBcUsQ==",
+  "success": true,
+  "projectFilePath": "D:\\workspace\\dotnet\\DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5\\desafio-dotnet.csproj",
+>>>>>>> origin/desenvolvimento
   "expectedPackageFiles": [
     "C:\\Users\\igore\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\igore\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.0\\microsoft.aspnetcore.openapi.7.0.0.nupkg.sha512",

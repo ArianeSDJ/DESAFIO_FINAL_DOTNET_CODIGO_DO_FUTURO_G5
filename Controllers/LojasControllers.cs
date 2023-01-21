@@ -1,7 +1,9 @@
 
 
 using desafio_dotnet.Contexto;
+using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
+using desafio_dotnet.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,29 +35,20 @@ public class LojasController : ControllerBase
         return StatusCode(404, new { Mensagem = "Loja não encontrada"});
     }
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] Loja lojaNova)
+    public async Task<IActionResult> Novo([FromBody] LojaDto lojaNova)
     {
-        _contexto.Add(lojaNova);
+        var loja = DtoBuilder<Loja>.Builder(lojaNova);
+        _contexto.Add(loja);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, lojaNova);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Loja lojaAtualizda)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] LojaDto lojaAtualizda)
     {
         var loja = await _contexto.Lojas.FindAsync(id);
         if(loja is not null)
         {
-            loja.bairro = lojaAtualizda.bairro;
-            loja.cep = lojaAtualizda.cep;
-            loja.cidade = lojaAtualizda.cidade;
-            loja.complemento = lojaAtualizda.complemento;
-            loja.estado = lojaAtualizda.estado;
-            loja.latitude = lojaAtualizda.latitude;
-            loja.logradouro = lojaAtualizda.logradouro;
-            loja.longitude = lojaAtualizda.longitude;
-            loja.nome = lojaAtualizda.nome;
-            loja.numero = lojaAtualizda.numero;
-            loja.observacao = lojaAtualizda.observacao;
+            loja = DtoBuilder<Loja>.Builder(lojaAtualizda);
             await _contexto.SaveChangesAsync();
         }
         return StatusCode(200, loja);
@@ -70,6 +63,6 @@ public class LojasController : ControllerBase
             _contexto.Lojas.Remove(loja);
         }
         await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"Loja {loja?.nome} apagada com sucesso"});
+        return StatusCode(200, new {Mensagem=$"Loja {loja?.Nome} apagada com sucesso"});
     }
 }

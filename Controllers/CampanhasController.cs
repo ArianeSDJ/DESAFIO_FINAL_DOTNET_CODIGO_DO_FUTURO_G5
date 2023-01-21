@@ -1,7 +1,9 @@
 
 
 using desafio_dotnet.Contexto;
+using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
+using desafio_dotnet.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,22 +35,20 @@ public class CampanhasController : ControllerBase
         return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
     }
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] Campanha campanhaNova)
+    public async Task<IActionResult> Novo([FromBody] CampanhaDto campanhaNova)
     {
-        _contexto.Add(campanhaNova);
+        var campanha = DtoBuilder<Campanha>.Builder(campanhaNova);
+        _contexto.Add(campanha);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, campanhaNova);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Campanha campanhaAtualizda)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] CampanhaDto campanhaAtualizda)
     {
         var campanha = await _contexto.Campanhas.FindAsync(id);
         if(campanha is not null)
         {
-            campanha.Nome = campanhaAtualizda.Nome;
-            campanha.Data = campanhaAtualizda.Data;
-            campanha.Descricao = campanhaAtualizda.Descricao;
-            campanha.UrlFotoPrateleira = campanhaAtualizda.UrlFotoPrateleira;
+            campanha = DtoBuilder<Campanha>.Builder(campanhaAtualizda);
             await _contexto.SaveChangesAsync();
             return StatusCode(200, campanha);
         }
