@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen();
 
 
 var conexao = Environment.GetEnvironmentVariable("DATABASE_DESAFIO");
-if(conexao is null) conexao = "Server=localhost;Database=database_desafio;Uid=root;Pwd=root;";
+if(conexao is null) conexao = "Server=localhost;Database=database_desafio;Uid=root;";
 
 builder.Services.AddDbContext<DbContexto>(options =>
     {
