@@ -30,9 +30,9 @@ public class LojasController : ControllerBase
         var loja = await _contexto.Lojas.FindAsync(id);
         if (loja is not null)
         {
-             return StatusCode(200, loja);
+            return StatusCode(200, loja);
         }
-        return StatusCode(404, new { Mensagem = "Loja não encontrada"});
+        return StatusCode(404, new { Mensagem = "Loja não encontrada" });
     }
     [HttpPost("")]
     public async Task<IActionResult> Novo([FromBody] LojaDto lojaNova)
@@ -43,15 +43,18 @@ public class LojasController : ControllerBase
         return StatusCode(201, lojaNova);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] LojaDto lojaAtualizda)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Loja lojaAtualizada)
     {
-        var loja = await _contexto.Lojas.FindAsync(id);
-        if(loja is not null)
+
+        if (id != lojaAtualizada.Id)
         {
-            loja = DtoBuilder<Loja>.Builder(lojaAtualizda);
-            await _contexto.SaveChangesAsync();
+            return StatusCode(404, new { Mensagem = "Loja não encontrada"});
         }
-        return StatusCode(200, loja);
+
+        _contexto.Entry(lojaAtualizada).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, lojaAtualizada);
     }
 
     [HttpDelete("{id}")]
@@ -63,6 +66,6 @@ public class LojasController : ControllerBase
             _contexto.Lojas.Remove(loja);
         }
         await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"Loja {loja?.Nome} apagada com sucesso"});
+        return StatusCode(200, new { Mensagem = $"Loja {loja?.Nome} apagada com sucesso" });
     }
 }

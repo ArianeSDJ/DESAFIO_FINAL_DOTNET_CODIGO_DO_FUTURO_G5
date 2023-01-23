@@ -43,16 +43,17 @@ public class CampanhasController : ControllerBase
         return StatusCode(201, campanhaNova);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] CampanhaDto campanhaAtualizda)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] CampanhaDto campanhaAtualizada)
     {
-        var campanha = await _contexto.Campanhas.FindAsync(id);
-        if(campanha is not null)
+        if (id != campanhaAtualizada.Id)
         {
-            campanha = DtoBuilder<Campanha>.Builder(campanhaAtualizda);
-            await _contexto.SaveChangesAsync();
-            return StatusCode(200, campanha);
+            return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
         }
-        return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
+
+        _contexto.Entry(campanhaAtualizada).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, campanhaAtualizada);
 
     }
 

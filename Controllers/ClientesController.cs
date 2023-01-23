@@ -27,9 +27,9 @@ public class ClientesController : ControllerBase
         var cliente = await _contexto.Clientes.FindAsync(id);
         if (cliente is not null)
         {
-             return StatusCode(200, cliente);
+            return StatusCode(200, cliente);
         }
-        return StatusCode(404, new { Mensagem = "Cliente não encontrado"});
+        return StatusCode(404, new { Mensagem = "Cliente não encontrado" });
     }
 
     [HttpPost("")]
@@ -43,14 +43,15 @@ public class ClientesController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Cliente clienteAtualizado)
     {
-        var cliente = await _contexto.Clientes.FindAsync(id);
-        if(cliente is not null)
+        if (id != clienteAtualizado.Id)
         {
-            _contexto.Entry(cliente).State = EntityState.Modified;
-            await _contexto.SaveChangesAsync();
-        return StatusCode(200, cliente);
+            return StatusCode(404, new { Mensagem = "Cliente não encontrado"});
         }
-        return StatusCode(404, new{Mensagem = "Cliente não encontrado"});
+
+        _contexto.Entry(clienteAtualizado).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, clienteAtualizado);
     }
 
     [HttpDelete("{id}")]
@@ -60,10 +61,10 @@ public class ClientesController : ControllerBase
         if (cliente is not null)
         {
             _contexto.Clientes.Remove(cliente);
-                await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"Cliente {cliente?.Nome} apagado com sucesso"});
+            await _contexto.SaveChangesAsync();
+            return StatusCode(200, new { Mensagem = $"Cliente {cliente?.Nome} apagado com sucesso" });
         }
-        return StatusCode(404, new{Mensagem = "Cliente não encontrado"});
+        return StatusCode(404, new { Mensagem = "Cliente não encontrado" });
     }
 
 

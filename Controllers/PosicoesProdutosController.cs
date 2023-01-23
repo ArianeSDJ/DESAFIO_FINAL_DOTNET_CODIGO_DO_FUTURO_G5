@@ -42,15 +42,15 @@ public class PosicoesProdutosController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] PosicaoProduto posicaoProdutoNova)
     {
-        var posicaoProdutos = await _contexto.PosicoesProdutos.FindAsync(id);
-        if(posicaoProdutos is not null)
+        if (id != posicaoProdutoNova.Id)
         {
-            posicaoProdutos.CampanhaId = posicaoProdutoNova.CampanhaId;
-            posicaoProdutos.PosicaoX = posicaoProdutoNova.PosicaoX;
-            posicaoProdutos.PosicaoY = posicaoProdutoNova.PosicaoY;
-            await _contexto.SaveChangesAsync();
+            return StatusCode(404, new { Mensagem = "Produto não atualizado"});
         }
-        return StatusCode(200, posicaoProdutos);
+
+        _contexto.Entry(posicaoProdutoNova).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, posicaoProdutoNova);
     }
 
     [HttpDelete("{id}")]

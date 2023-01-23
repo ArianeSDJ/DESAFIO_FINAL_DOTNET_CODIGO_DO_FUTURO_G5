@@ -40,15 +40,15 @@ public class PedidosController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Pedido pedidoAtualizado)
     {
-        var pedido = await _contexto.Pedidos.FindAsync(id);
-        if(pedido is not null)
+        if (id != pedidoAtualizado.Id)
         {
-            pedido.Data = pedidoAtualizado.Data;
-            pedido.ValorTotal = pedidoAtualizado.ValorTotal;
-            await _contexto.SaveChangesAsync();
-            return StatusCode(200, pedido);
+            return StatusCode(404, new { Mensagem = "Pedido não encontrado"});
         }
-        return StatusCode(404, new { Mensagem = "Pedido não encontrado"});
+
+        _contexto.Entry(pedidoAtualizado).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, pedidoAtualizado);
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deleta([FromRoute] int id)
@@ -58,7 +58,7 @@ public class PedidosController : ControllerBase
         {
             _contexto.Pedidos.Remove(pedido);
             await _contexto.SaveChangesAsync();
-            return StatusCode(200, new {Mensagem="pedido apagado com sucesso"});
+            return StatusCode(200, new {Mensagem="Pedido apagado com sucesso"});
         }   
         return StatusCode(404, new { Mensagem = "Pedido não encontrado"});     
     }

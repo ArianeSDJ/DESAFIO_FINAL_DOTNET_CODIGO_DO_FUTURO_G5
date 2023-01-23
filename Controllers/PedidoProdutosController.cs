@@ -39,15 +39,15 @@ public class PedidoProdutosController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] PedidoProduto pedidoProdutoAtualizado)
     {
-        var pedidoProduto = await _contexto.PedidoProdutos.FindAsync(id);
-        if(pedidoProduto is not null)
+        if (id != pedidoProdutoAtualizado.Id)
         {
-            pedidoProduto.Valor = pedidoProdutoAtualizado.Valor;
-            pedidoProduto.Quantidade = pedidoProdutoAtualizado.Quantidade;
-            await _contexto.SaveChangesAsync();
-            return StatusCode(200, pedidoProduto);
+            return StatusCode(404, new { Mensagem = "Pedido não encontrada"});
         }
-        return StatusCode(404, new { Mensagem = "Pedido não encontrado"});
+
+        _contexto.Entry(pedidoProdutoAtualizado).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, pedidoProdutoAtualizado);
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deleta([FromRoute] int id)
