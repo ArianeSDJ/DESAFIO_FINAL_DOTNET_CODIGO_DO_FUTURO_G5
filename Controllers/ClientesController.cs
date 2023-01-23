@@ -1,5 +1,6 @@
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using desafio_dotnet.ModelView;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,27 @@ public class ClientesController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Lista()
+    public async Task<IActionResult> Lista([FromQuery] int page = 1, [FromQuery] int take = 20)
     {
-        List<Cliente> clientes = await _contexto.Clientes.ToListAsync();
-        return StatusCode(200, clientes);
+        int total = await _contexto.Clientes.CountAsync();
+        if (total == 0) return StatusCode(200, new ListarRetorno<Cliente> { Mensagem = "Ainda não há campanhas cadastradas", TotalRegistros=total});
+
+        int maximoPaginas = (total / take) + 1;
+        if(page>maximoPaginas) return StatusCode(404, new ListarRetorno<Cliente> {Mensagem="Essa pagina não existe", MaximoPaginas=maximoPaginas});
+        
+        try
+        {
+            int pagina = (page - 1) * take;
+            List<Cliente> clientes = await _contexto.Clientes
+                .Skip(pagina)
+                .Take(take)
+                .ToListAsync();
+            return StatusCode(200, new ListarRetorno<Cliente> { TotalRegistros = total, PaginaAtual = page, MaximoPaginas = maximoPaginas, Dados = clientes });
+        }
+        catch
+        {
+            return StatusCode(400, new ListarRetorno<Campanha> {Mensagem = "ALgo deu errado"});
+        }
     }
 
     [HttpGet("{id}")]

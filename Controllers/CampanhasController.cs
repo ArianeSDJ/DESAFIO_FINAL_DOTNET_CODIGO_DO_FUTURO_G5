@@ -1,8 +1,8 @@
 
-
 using desafio_dotnet.Contexto;
 using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
+using desafio_dotnet.ModelView;
 using desafio_dotnet.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,10 +19,27 @@ public class CampanhasController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Lista()
+    public async Task<IActionResult> Lista([FromQuery] int page = 1, [FromQuery] int take = 20)
     {
-        List<Campanha> campanhas = await _contexto.Campanhas.ToListAsync();
-        return StatusCode(200, campanhas);
+        int total = await _contexto.Campanhas.CountAsync();
+        if (total == 0) return StatusCode(200, new ListarRetorno<Campanha> { Mensagem = "Ainda não há campanhas cadastradas", TotalRegistros=total});
+
+        int maximoPaginas = (total / take) + 1;
+        if(page>maximoPaginas) return StatusCode(404, new ListarRetorno<Campanha> {Mensagem="Essa pagina não existe", MaximoPaginas=maximoPaginas});
+        
+        try
+        {
+            int pagina = (page - 1) * take;
+            List<Campanha> campanhas = await _contexto.Campanhas
+                .Skip(pagina)
+                .Take(take)
+                .ToListAsync();
+            return StatusCode(200, new ListarRetorno<Campanha> { TotalRegistros = total, PaginaAtual = page, MaximoPaginas = maximoPaginas, Dados = campanhas });
+        }
+        catch
+        {
+            return StatusCode(400, new ListarRetorno<Campanha> {Mensagem = "ALgo deu errado"});
+        }
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
@@ -30,9 +47,9 @@ public class CampanhasController : ControllerBase
         var campanha = await _contexto.Campanhas.FindAsync(id);
         if (campanha is not null)
         {
-             return StatusCode(200, campanha);
+            return StatusCode(200, campanha);
         }
-        return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
+        return StatusCode(404, new { Mensagem = "Campanha não encontrada" });
     }
     [HttpPost("")]
     public async Task<IActionResult> Novo([FromBody] CampanhaDto campanhaNova)
@@ -47,7 +64,7 @@ public class CampanhasController : ControllerBase
     {
         if (id != campanhaAtualizada.Id)
         {
-            return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
+            return StatusCode(404, new { Mensagem = "Campanha não encontrada" });
         }
 
         _contexto.Entry(campanhaAtualizada).State = EntityState.Modified;
@@ -65,8 +82,8 @@ public class CampanhasController : ControllerBase
         {
             _contexto.Campanhas.Remove(campanha);
             await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"campanha {campanha?.Nome} apagada com sucesso"});
+            return StatusCode(200, new { Mensagem = $"campanha {campanha?.Nome} apagada com sucesso" });
         }
-        return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
+        return StatusCode(404, new { Mensagem = "Campanha não encontrada" });
     }
 }

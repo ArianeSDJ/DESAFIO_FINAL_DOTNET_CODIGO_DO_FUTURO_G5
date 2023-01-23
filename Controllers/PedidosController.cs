@@ -1,5 +1,6 @@
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using desafio_dotnet.ModelView;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,28 @@ public class PedidosController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Lista(int? clienteId)
+    //public async Task<IActionResult> Lista(int? clienteId)
+     public async Task<IActionResult> Lista([FromQuery] int page = 1, [FromQuery] int take = 20)
     {
-        List<Pedido> pedidos = await _contexto.Pedidos.ToListAsync();
-        return StatusCode(200, pedidos);
+        int total = await _contexto.Pedidos.CountAsync();
+        if (total == 0) return StatusCode(200, new ListarRetorno<Pedido> { Mensagem = "Ainda não há Pedidos cadastrados", TotalRegistros=total});
+
+        int maximoPaginas = (total / take) + 1;
+        if(page>maximoPaginas) return StatusCode(404, new ListarRetorno<Pedido> {Mensagem="Essa pagina não existe", MaximoPaginas=maximoPaginas});
+        
+        try
+        {
+            int pagina = (page - 1) * take;
+            List<Pedido> pedidos = await _contexto.Pedidos
+                .Skip(pagina)
+                .Take(take)
+                .ToListAsync();
+            return StatusCode(200, new ListarRetorno<Pedido> { TotalRegistros = total, PaginaAtual = page, MaximoPaginas = maximoPaginas, Dados = pedidos });
+        }
+        catch
+        {
+            return StatusCode(400, new ListarRetorno<Pedido> {Mensagem = "ALgo deu errado"});
+        }
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
