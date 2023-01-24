@@ -27,6 +27,7 @@ public class LojasController : ControllerBase
         List<Loja> lojas = await _contexto.Lojas.ToListAsync();
         return StatusCode(200, lojas);
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
     {
@@ -45,6 +46,7 @@ public class LojasController : ControllerBase
         await _contexto.SaveChangesAsync();
         return StatusCode(201, lojaNova);
     }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Loja lojaAtualizada)
     {

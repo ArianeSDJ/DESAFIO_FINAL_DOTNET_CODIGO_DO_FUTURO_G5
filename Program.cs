@@ -44,7 +44,7 @@ builder.Services.AddSwaggerGen(c =>
 
 
 var conexao = Environment.GetEnvironmentVariable("DATABASE_DESAFIO");
-if(conexao is null) conexao = "Server=localhost;Database=database_desafio;Uid=root;";
+if (conexao is null) conexao = "Server=localhost;Database=database_desafio;Uid=root;";
 
 builder.Services.AddDbContext<DbContexto>(options =>
     {
@@ -80,6 +80,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+        );
 
 app.UseHttpsRedirection();
 
