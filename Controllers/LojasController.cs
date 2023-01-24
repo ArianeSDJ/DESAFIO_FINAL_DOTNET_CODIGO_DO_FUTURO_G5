@@ -39,7 +39,7 @@ public class LojasController : ControllerBase
         return StatusCode(404, new { Mensagem = "Loja não encontrada" });
     }
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] LojaDto lojaNova)
+    public async Task<IActionResult> Novo([FromBody] LojaDTO lojaNova)
     {
         var loja = DtoBuilder<Loja>.Builder(lojaNova);
         _contexto.Add(loja);

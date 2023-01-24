@@ -1,7 +1,7 @@
 
 namespace desafio_dotnet.DTOs;
 
-public record LojaDto
+public record LojaDTO
 {
     public string Nome {get;set;} = default!;
     public string Cep {get;set;} = default!;

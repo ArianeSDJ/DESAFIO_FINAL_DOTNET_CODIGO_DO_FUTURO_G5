@@ -38,7 +38,7 @@ public class CampanhasController : ControllerBase
         return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
     }
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] CampanhaDto campanhaNova)
+    public async Task<IActionResult> Novo([FromBody] CampanhaDTO campanhaNova)
     {
         var campanha = DtoBuilder<Campanha>.Builder(campanhaNova);
         _contexto.Add(campanha);
@@ -46,7 +46,7 @@ public class CampanhasController : ControllerBase
         return StatusCode(201, campanhaNova);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] CampanhaDto campanhaAtualizada)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] CampanhaDTO campanhaAtualizada)
     {
         if (id != campanhaAtualizada.Id)
         {

@@ -1,5 +1,6 @@
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using desafio_dotnet.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,8 @@ public class PedidoProdutosController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> Novo([FromBody] Pedido pedidoProdutoNovo)
     {
-        _contexto.Add(pedidoProdutoNovo);
+        var pedidoProduto = DtoBuilder<PedidoProduto>.Builder(pedidoProdutoNovo);
+        _contexto.Add(pedidoProduto);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, pedidoProdutoNovo);
     }
