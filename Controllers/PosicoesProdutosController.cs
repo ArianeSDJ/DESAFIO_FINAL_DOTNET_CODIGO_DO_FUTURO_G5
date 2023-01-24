@@ -2,6 +2,8 @@
 
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using desafio_dotnet.Services;
+using desafiodotnet.Migrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +40,8 @@ public class PosicoesProdutosController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> Novo([FromBody] PosicaoProduto posicaoProdutoNova)
     {
-        _contexto.Add(posicaoProdutoNova);
+        var posicaoProdutos = DtoBuilder<PosicaoProduto>.Builder(posicaoProdutoNova);
+        _contexto.Add(posicaoProdutos);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, posicaoProdutoNova);
     }
