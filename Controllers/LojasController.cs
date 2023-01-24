@@ -4,12 +4,15 @@ using desafio_dotnet.Contexto;
 using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
 using desafio_dotnet.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("lojas")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class LojasController : ControllerBase
 {
     private readonly DbContexto _contexto;
@@ -24,15 +27,16 @@ public class LojasController : ControllerBase
         List<Loja> lojas = await _contexto.Lojas.ToListAsync();
         return StatusCode(200, lojas);
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
     {
         var loja = await _contexto.Lojas.FindAsync(id);
         if (loja is not null)
         {
-             return StatusCode(200, loja);
+            return StatusCode(200, loja);
         }
-        return StatusCode(404, new { Mensagem = "Loja não encontrada"});
+        return StatusCode(404, new { Mensagem = "Loja não encontrada" });
     }
     [HttpPost("")]
     public async Task<IActionResult> Novo([FromBody] LojaDto lojaNova)
@@ -42,16 +46,20 @@ public class LojasController : ControllerBase
         await _contexto.SaveChangesAsync();
         return StatusCode(201, lojaNova);
     }
+
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] LojaDto lojaAtualizda)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Loja lojaAtualizada)
     {
-        var loja = await _contexto.Lojas.FindAsync(id);
-        if(loja is not null)
+
+        if (id != lojaAtualizada.Id)
         {
-            loja = DtoBuilder<Loja>.Builder(lojaAtualizda);
-            await _contexto.SaveChangesAsync();
+            return StatusCode(404, new { Mensagem = "Loja não encontrada"});
         }
-        return StatusCode(200, loja);
+
+        _contexto.Entry(lojaAtualizada).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, lojaAtualizada);
     }
 
     [HttpDelete("{id}")]
@@ -63,6 +71,6 @@ public class LojasController : ControllerBase
             _contexto.Lojas.Remove(loja);
         }
         await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"Loja {loja?.Nome} apagada com sucesso"});
+        return StatusCode(200, new { Mensagem = $"Loja {loja?.Nome} apagada com sucesso" });
     }
 }

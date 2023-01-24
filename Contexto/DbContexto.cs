@@ -1,9 +1,10 @@
 using desafio_dotnet.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Contexto;
 
-public class DbContexto : DbContext
+public class DbContexto : IdentityDbContext
 {
     public DbContexto(DbContextOptions<DbContexto> options) : base(options) { }
     

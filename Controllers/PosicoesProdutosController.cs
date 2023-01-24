@@ -2,12 +2,15 @@
 
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("posicoes-produtos")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class PosicoesProdutosController : ControllerBase
 {
     private readonly DbContexto _contexto;
@@ -42,15 +45,15 @@ public class PosicoesProdutosController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] PosicaoProduto posicaoProdutoNova)
     {
-        var posicaoProdutos = await _contexto.PosicoesProdutos.FindAsync(id);
-        if(posicaoProdutos is not null)
+        if (id != posicaoProdutoNova.Id)
         {
-            posicaoProdutos.CampanhaId = posicaoProdutoNova.CampanhaId;
-            posicaoProdutos.PosicaoX = posicaoProdutoNova.PosicaoX;
-            posicaoProdutos.PosicaoY = posicaoProdutoNova.PosicaoY;
-            await _contexto.SaveChangesAsync();
+            return StatusCode(404, new { Mensagem = "Produto não atualizado"});
         }
-        return StatusCode(200, posicaoProdutos);
+
+        _contexto.Entry(posicaoProdutoNova).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, posicaoProdutoNova);
     }
 
     [HttpDelete("{id}")]

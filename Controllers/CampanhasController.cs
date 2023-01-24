@@ -4,12 +4,15 @@ using desafio_dotnet.Contexto;
 using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
 using desafio_dotnet.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("campanhas")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class CampanhasController : ControllerBase
 {
     private readonly DbContexto _contexto;
@@ -43,16 +46,17 @@ public class CampanhasController : ControllerBase
         return StatusCode(201, campanhaNova);
     }
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] CampanhaDto campanhaAtualizda)
+    public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] CampanhaDto campanhaAtualizada)
     {
-        var campanha = await _contexto.Campanhas.FindAsync(id);
-        if(campanha is not null)
+        if (id != campanhaAtualizada.Id)
         {
-            campanha = DtoBuilder<Campanha>.Builder(campanhaAtualizda);
-            await _contexto.SaveChangesAsync();
-            return StatusCode(200, campanha);
+            return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
         }
-        return StatusCode(404, new { Mensagem = "Campanha não encontrada"});
+
+        _contexto.Entry(campanhaAtualizada).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, campanhaAtualizada);
 
     }
 

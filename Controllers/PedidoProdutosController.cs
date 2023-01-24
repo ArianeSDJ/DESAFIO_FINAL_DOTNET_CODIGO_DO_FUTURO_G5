@@ -1,11 +1,14 @@
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("pedidoProdutos")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class PedidoProdutosController : ControllerBase
 {
     private readonly DbContexto _contexto;
@@ -39,15 +42,15 @@ public class PedidoProdutosController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] PedidoProduto pedidoProdutoAtualizado)
     {
-        var pedidoProduto = await _contexto.PedidoProdutos.FindAsync(id);
-        if(pedidoProduto is not null)
+        if (id != pedidoProdutoAtualizado.Id)
         {
-            pedidoProduto.Valor = pedidoProdutoAtualizado.Valor;
-            pedidoProduto.Quantidade = pedidoProdutoAtualizado.Quantidade;
-            await _contexto.SaveChangesAsync();
-            return StatusCode(200, pedidoProduto);
+            return StatusCode(404, new { Mensagem = "Pedido não encontrada"});
         }
-        return StatusCode(404, new { Mensagem = "Pedido não encontrado"});
+
+        _contexto.Entry(pedidoProdutoAtualizado).State = EntityState.Modified;
+        await _contexto.SaveChangesAsync();
+
+        return StatusCode(200, pedidoProdutoAtualizado);
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deleta([FromRoute] int id)
