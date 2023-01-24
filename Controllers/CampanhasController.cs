@@ -4,12 +4,15 @@ using desafio_dotnet.Contexto;
 using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
 using desafio_dotnet.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("campanhas")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class CampanhasController : ControllerBase
 {
     private readonly DbContexto _contexto;

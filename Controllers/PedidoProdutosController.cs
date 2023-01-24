@@ -1,11 +1,14 @@
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("pedidoProdutos")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class PedidoProdutosController : ControllerBase
 {
     private readonly DbContexto _contexto;
