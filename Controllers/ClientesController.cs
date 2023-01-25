@@ -1,12 +1,17 @@
 using desafio_dotnet.Contexto;
+using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
 using desafio_dotnet.ModelView;
+using desafio_dotnet.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("clientes")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ClientesController : ControllerBase
 {
     private readonly DbContexto _contexto;
@@ -51,9 +56,10 @@ public class ClientesController : ControllerBase
     }
 
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] Cliente clienteNovo)
+    public async Task<IActionResult> Novo([FromBody] ClienteDTO clienteNovo)
     {
-        _contexto.Add(clienteNovo);
+        var cliente = DtoBuilder<Cliente>.Builder(clienteNovo);
+        _contexto.Add(cliente);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, clienteNovo);
     }

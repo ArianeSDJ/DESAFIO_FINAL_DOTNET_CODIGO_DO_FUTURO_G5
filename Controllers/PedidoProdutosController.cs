@@ -1,12 +1,17 @@
 using desafio_dotnet.Contexto;
+using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
 using desafio_dotnet.ModelView;
+using desafio_dotnet.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("pedidoProdutos")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class PedidoProdutosController : ControllerBase
 {
     private readonly DbContexto _contexto;
@@ -14,6 +19,7 @@ public class PedidoProdutosController : ControllerBase
     {
         _contexto = contexto;
     }
+    
     [HttpGet("")]
     public async Task<IActionResult> Lista([FromQuery] int pedidoId)
     {
@@ -30,6 +36,7 @@ public class PedidoProdutosController : ControllerBase
             return StatusCode(400, new ListarRetorno<PedidoProduto> { Mensagem = "ALgo deu errado" });
         }
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
     {
@@ -40,20 +47,24 @@ public class PedidoProdutosController : ControllerBase
         }
         return StatusCode(404, new { Mensagem = "Pedido não encontrado" });
     }
+
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] PedidoProduto pedidoProdutoNovo)
+    public async Task<IActionResult> Novo([FromBody] PedidoProdutoDTO pedidoProdutoNovo)
     {
         try
         {
-            Console.WriteLine(pedidoProdutoNovo);
-            _contexto.Add(pedidoProdutoNovo);
+            var pedidoProduto = DtoBuilder<PedidoProduto>.Builder(pedidoProdutoNovo);
+            _contexto.Add(pedidoProduto);
             await _contexto.SaveChangesAsync();
             return StatusCode(201, pedidoProdutoNovo);
         }
-        catch{
+        catch
+        {
             return StatusCode(400, pedidoProdutoNovo);
         }
+
     }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] PedidoProduto pedidoProdutoAtualizado)
     {

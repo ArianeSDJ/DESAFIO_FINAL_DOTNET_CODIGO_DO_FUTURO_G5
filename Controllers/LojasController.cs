@@ -5,12 +5,15 @@ using desafio_dotnet.DTOs;
 using desafio_dotnet.Models;
 using desafio_dotnet.ModelView;
 using desafio_dotnet.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace desafio_dotnet.Controllers;
 
 [Route("lojas")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class LojasController : ControllerBase
 {
     private readonly DbContexto _contexto;
@@ -42,6 +45,7 @@ public class LojasController : ControllerBase
             return StatusCode(400, new ListarRetorno<Loja> {Mensagem = "ALgo deu errado"});
         }
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
     {
@@ -53,13 +57,14 @@ public class LojasController : ControllerBase
         return StatusCode(404, new { Mensagem = "Loja não encontrada" });
     }
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] LojaDto lojaNova)
+    public async Task<IActionResult> Novo([FromBody] LojaDTO lojaNova)
     {
         var loja = DtoBuilder<Loja>.Builder(lojaNova);
         _contexto.Add(loja);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, lojaNova);
     }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] Loja lojaAtualizada)
     {

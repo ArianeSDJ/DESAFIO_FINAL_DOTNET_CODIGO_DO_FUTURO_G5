@@ -1,7 +1,7 @@
 
 namespace desafio_dotnet.DTOs;
 
-public record CampanhaDto
+public record CampanhaDTO
 {
     public int Id {get;set;} =default!;
     public string Nome {get;set;} =default!;
