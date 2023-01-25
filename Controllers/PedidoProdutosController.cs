@@ -17,12 +17,14 @@ public class PedidoProdutosController : ControllerBase
     {
         _contexto = contexto;
     }
+    
     [HttpGet("")]
     public async Task<IActionResult> Lista()
     {
         List<PedidoProduto> pedidoProduto = await _contexto.PedidoProdutos.ToListAsync();
         return StatusCode(200, pedidoProduto);
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
     {
@@ -33,14 +35,16 @@ public class PedidoProdutosController : ControllerBase
         }
         return StatusCode(404, new { Mensagem = "Pedido não encontrado"});
     }
+
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] Pedido pedidoProdutoNovo)
+    public async Task<IActionResult> Novo([FromBody] PedidoProduto pedidoProdutoNovo)
     {
         var pedidoProduto = DtoBuilder<PedidoProduto>.Builder(pedidoProdutoNovo);
         _contexto.Add(pedidoProduto);
         await _contexto.SaveChangesAsync();
         return StatusCode(201, pedidoProdutoNovo);
     }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] PedidoProduto pedidoProdutoAtualizado)
     {
