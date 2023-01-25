@@ -38,7 +38,7 @@ public class CampanhasController : ControllerBase
         }
         catch
         {
-            return StatusCode(400, new ListarRetorno<Campanha> {Mensagem = "ALgo deu errado"});
+            return StatusCode(400, new ListarRetorno<Campanha> {Mensagem = "Algo deu errado"});
         }
     }
     [HttpGet("{id}")]

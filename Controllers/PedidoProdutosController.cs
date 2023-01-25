@@ -15,26 +15,19 @@ public class PedidoProdutosController : ControllerBase
         _contexto = contexto;
     }
     [HttpGet("")]
-    public async Task<IActionResult> Lista([FromQuery] int page = 1, [FromQuery] int take = 20)
+    public async Task<IActionResult> Lista([FromQuery] int pedidoId)
     {
         int total = await _contexto.PedidoProdutos.CountAsync();
-        if (total == 0) return StatusCode(200, new ListarRetorno<PedidoProduto> { Mensagem = "Ainda não há Produtos cadastradas em Pedidos", TotalRegistros=total});
+        if (total == 0) return StatusCode(200, new ListarRetorno<PedidoProduto> { Mensagem = "Ainda não há Produtos cadastradas em Pedidos" });
 
-        int maximoPaginas = (total / take) + 1;
-        if(page>maximoPaginas) return StatusCode(404, new ListarRetorno<PedidoProduto> {Mensagem="Essa pagina não existe", MaximoPaginas=maximoPaginas});
-        
         try
         {
-            int pagina = (page - 1) * take;
-            List<PedidoProduto> pedidoProdutos = await _contexto.PedidoProdutos
-                .Skip(pagina)
-                .Take(take)
-                .ToListAsync();
-            return StatusCode(200, new ListarRetorno<PedidoProduto> { TotalRegistros = total, PaginaAtual = page, MaximoPaginas = maximoPaginas, Dados = pedidoProdutos });
+            var pedidoProdutos = _contexto.PedidoProdutos.Where(pp => pp.PedidoId == pedidoId);
+            return StatusCode(200, pedidoProdutos);
         }
         catch
         {
-            return StatusCode(400, new ListarRetorno<PedidoProduto> {Mensagem = "ALgo deu errado"});
+            return StatusCode(400, new ListarRetorno<PedidoProduto> { Mensagem = "ALgo deu errado" });
         }
     }
     [HttpGet("{id}")]
@@ -43,29 +36,45 @@ public class PedidoProdutosController : ControllerBase
         var pedidoProduto = await _contexto.PedidoProdutos.FindAsync(id);
         if (pedidoProduto is not null)
         {
-             return StatusCode(200, pedidoProduto);
+            return StatusCode(200, pedidoProduto);
         }
-        return StatusCode(404, new { Mensagem = "Pedido não encontrado"});
+        return StatusCode(404, new { Mensagem = "Pedido não encontrado" });
     }
     [HttpPost("")]
-    public async Task<IActionResult> Novo([FromBody] Pedido pedidoProdutoNovo)
+    public async Task<IActionResult> Novo([FromBody] PedidoProduto pedidoProdutoNovo)
     {
-        _contexto.Add(pedidoProdutoNovo);
-        await _contexto.SaveChangesAsync();
-        return StatusCode(201, pedidoProdutoNovo);
+        try
+        {
+            Console.WriteLine(pedidoProdutoNovo);
+            _contexto.Add(pedidoProdutoNovo);
+            await _contexto.SaveChangesAsync();
+            return StatusCode(201, pedidoProdutoNovo);
+        }
+        catch{
+            return StatusCode(400, pedidoProdutoNovo);
+        }
     }
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualiza([FromRoute] int id, [FromBody] PedidoProduto pedidoProdutoAtualizado)
     {
         if (id != pedidoProdutoAtualizado.Id)
         {
-            return StatusCode(404, new { Mensagem = "Pedido não encontrada"});
+            return StatusCode(404, new { Mensagem = "Pedido não encontrada" });
         }
 
-        _contexto.Entry(pedidoProdutoAtualizado).State = EntityState.Modified;
-        await _contexto.SaveChangesAsync();
+        try
+        {
+            _contexto.Entry(pedidoProdutoAtualizado).State = EntityState.Modified;
+            await _contexto.SaveChangesAsync();
+             return StatusCode(200, pedidoProdutoAtualizado);
+        }
+        catch
+        {
+            Console.WriteLine(pedidoProdutoAtualizado);
+            return StatusCode(400, new {Mensagem="xii"});
+        }
 
-        return StatusCode(200, pedidoProdutoAtualizado);
+       
     }
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deleta([FromRoute] int id)
@@ -75,8 +84,8 @@ public class PedidoProdutosController : ControllerBase
         {
             _contexto.PedidoProdutos.Remove(pedidoProduto);
             await _contexto.SaveChangesAsync();
-            return StatusCode(200, new {Mensagem="pedido apagado com sucesso"});
-        }   
-        return StatusCode(404, new { Mensagem = "Pedido não encontrado"});     
+            return StatusCode(200, new { Mensagem = "pedido apagado com sucesso" });
+        }
+        return StatusCode(404, new { Mensagem = "Pedido não encontrado" });
     }
 }
