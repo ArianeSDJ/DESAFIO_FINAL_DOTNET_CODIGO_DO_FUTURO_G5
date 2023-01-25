@@ -22,8 +22,8 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Header de autorização JWT usando o esquema Bearer." +
-        "\r\n\r\nInforme 'Bearer' [espaço] e o seu token.\r\n\r\nExemplo: \'Bearer 12345abcdef\'",
+        Description = "Header de autorizaÃ§Ã£o JWT usando o esquema Bearer." +
+        "\r\n\r\nInforme 'Bearer' [espaÃ§o] e o seu token.\r\n\r\nExemplo: \'Bearer 12345abcdef\'",
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -57,7 +57,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders();
 
 /*
- * JWT adiciona o manipulador de autenticação e define o esquema de autenticação usando : Bearer
+ * JWT adiciona o manipulador de autenticaÃ§Ã£o e define o esquema de autenticaÃ§Ã£o usando : Bearer
     valida o emissor, a audiencia e a chave usando a chave secreta valida a assinatura
 */
 builder.Services.AddAuthentication(
@@ -85,7 +85,8 @@ app.UseCors(x => x
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()
-        );
+);
+
 
 app.UseHttpsRedirection();
 

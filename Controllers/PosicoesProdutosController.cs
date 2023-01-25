@@ -1,7 +1,7 @@
-
-
+using desafio_dotnet.DTOs;
 using desafio_dotnet.Contexto;
 using desafio_dotnet.Models;
+using desafio_dotnet.ModelView;
 using desafio_dotnet.Services;
 using desafiodotnet.Migrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,10 +22,27 @@ public class PosicoesProdutosController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<IActionResult> Lista()
+    public async Task<IActionResult> Lista([FromQuery] int page = 1, [FromQuery] int take = 20)
     {
-        List<PosicaoProduto> posicaoProdutos = await _contexto.PosicoesProdutos.ToListAsync();
-        return StatusCode(200, posicaoProdutos);
+        int total = await _contexto.PosicoesProdutos.CountAsync();
+        if (total == 0) return StatusCode(200, new ListarRetorno<PosicaoProduto> { Mensagem = "Ainda não há Posições de Produtos cadastradas", TotalRegistros = total });
+
+        int maximoPaginas = (total / take) + 1;
+        if (page > maximoPaginas) return StatusCode(404, new ListarRetorno<PosicaoProduto> { Mensagem = "Essa pagina não existe", MaximoPaginas = maximoPaginas });
+
+        try
+        {
+            int pagina = (page - 1) * take;
+            List<PosicaoProduto> posicaoProdutos = await _contexto.PosicoesProdutos
+                .Skip(pagina)
+                .Take(take)
+                .ToListAsync();
+            return StatusCode(200, new ListarRetorno<PosicaoProduto> { TotalRegistros = total, PaginaAtual = page, MaximoPaginas = maximoPaginas, Dados = posicaoProdutos });
+        }
+        catch
+        {
+            return StatusCode(400, new ListarRetorno<PosicaoProduto> { Mensagem = "ALgo deu errado" });
+        }
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> Detalhes([FromRoute] int id)
@@ -33,9 +50,9 @@ public class PosicoesProdutosController : ControllerBase
         var posicaoProdutos = await _contexto.PosicoesProdutos.FindAsync(id);
         if (posicaoProdutos is not null)
         {
-             return StatusCode(200, posicaoProdutos);
+            return StatusCode(200, posicaoProdutos);
         }
-        return StatusCode(404, new { Mensagem = "não encontrada"});
+        return StatusCode(404, new { Mensagem = "não encontrada" });
     }
     [HttpPost("")]
     public async Task<IActionResult> Novo([FromBody] PosicaoProduto posicaoProdutoNova)
@@ -50,7 +67,7 @@ public class PosicoesProdutosController : ControllerBase
     {
         if (id != posicaoProdutoNova.Id)
         {
-            return StatusCode(404, new { Mensagem = "Produto não atualizado"});
+            return StatusCode(404, new { Mensagem = "Produto não atualizado" });
         }
 
         _contexto.Entry(posicaoProdutoNova).State = EntityState.Modified;
@@ -68,6 +85,6 @@ public class PosicoesProdutosController : ControllerBase
             _contexto.PosicoesProdutos.Remove(posicaoProdutos);
         }
         await _contexto.SaveChangesAsync();
-        return StatusCode(200, new {Mensagem=$"Posicao de produtos apagada com sucesso"});
+        return StatusCode(200, new { Mensagem = $"Posicao de produtos apagada com sucesso" });
     }
 }
