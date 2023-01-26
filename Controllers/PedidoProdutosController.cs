@@ -51,17 +51,10 @@ public class PedidoProdutosController : ControllerBase
     [HttpPost("")]
     public async Task<IActionResult> Novo([FromBody] PedidoProdutoDTO pedidoProdutoNovo)
     {
-        try
-        {
             var pedidoProduto = DtoBuilder<PedidoProduto>.Builder(pedidoProdutoNovo);
             _contexto.Add(pedidoProduto);
             await _contexto.SaveChangesAsync();
-            return StatusCode(201, pedidoProdutoNovo);
-        }
-        catch
-        {
-            return StatusCode(400, pedidoProdutoNovo);
-        }
+            return StatusCode(201, pedidoProduto);
 
     }
 
