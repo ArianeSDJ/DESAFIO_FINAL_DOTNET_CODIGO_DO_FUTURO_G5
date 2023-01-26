@@ -23,7 +23,7 @@ public class PedidosController : ControllerBase
     [HttpGet("")]
      public async Task<IActionResult> Lista([FromQuery] int? ano, [FromQuery] int page = 1)
     {
-        int take = 20;
+        int take = 10;
         int total = await PedidoService.TotalRegistros(_contexto);
         int maximoPaginas = (total / take) + 1;
 
