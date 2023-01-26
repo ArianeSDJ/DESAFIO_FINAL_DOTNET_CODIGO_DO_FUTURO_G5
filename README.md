@@ -64,8 +64,8 @@ O sistema será desenvolvido em AspNet core API C# com as seguintes Endpoints  c
 - Fluidez na apresentação.
 
 
-## Link do Repositório Original 💼
-[https://github.com/ArianeSDJ/DESAFIO_FINAL_DOTNET_CODIGO_DO_FUTURO_G5]()
+## Link do Repositório do Front 💼
+[https://github.com/VictorPnheiro/Proj-G5-Angular]()
 
 ## Integrantes do Grupo 5 - 💻
 
